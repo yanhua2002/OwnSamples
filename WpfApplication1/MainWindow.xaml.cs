@@ -16,27 +16,30 @@ namespace WpfApplication1
     /// </summary>
     public partial class MainWindow : Window
     {
-        int allCandiNum;
-        static string filePath = @"C:\Users\George\Desktop";
-        string connString = @"Driver={Microsoft Text Driver (*.txt; *.csv)};DBQ=" + filePath;
+        #region
+
+        static string filePath = @"%UserProfile%\Desktop";
+        string connString = @"Driver={Microsoft Text Driver (*.txt; *.csv)};DBQ=" + Environment.ExpandEnvironmentVariables(filePath);
 
         DataTable dtTable = new DataTable();
 
-        Label[] labels;
+        Awards drawingAward = Awards.A;
+
+        int allCandiNum, restCandiNum;           // 所有抽奖的总人数，剩余抽奖的人数
+        int totalNumToDraw, totalTimesToDraw;    // 当前奖项共抽取多少人，需抽取多少次
+        int drawingTime = 0;                    // 当前奖项在抽取第几次
+        int lastRound, thisRound = 10;          // 当前奖项最后一次抽取需抽取多少人
+
+        int[] random;                           // 每一次滚动时的随机序列
 
         DispatcherTimer timer;
-        Awards drawingAward = Awards.A;
+        Label[] labels;
 
         bool isRolling = false;
 
-        int[] random;
+        bool lastRoundStop = true;              // 当前奖项最后一次抽取是否完成，用于切换至下一奖项时的暂停画面
 
-        int restCandiNum;
-        int totalNumToDraw = 50;
-        int totalTimeToDraw = 5;
-        int drawingTime = 0;
-        int lastRound, thisRound = 10;
-        bool lastRoundStop = true;
+        #endregion
 
         public MainWindow()
         {
@@ -45,6 +48,8 @@ namespace WpfApplication1
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(0.04);
             timer.Tick += timer_Tick;
+
+            labels = new Label[] { lbl0, lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7, lbl8, lbl9 };
         }
 
         public void InitializeCandidates()
@@ -68,8 +73,8 @@ namespace WpfApplication1
                     restCandiNum = allCandiNum = dtTable.Rows.Count;
 
                     totalNumToDraw = (int)Math.Floor((double)allCandiNum * 0.2);
-                    totalTimeToDraw = Math.DivRem(totalNumToDraw, 10, out lastRound) + 1;
-                    if (lastRound == 0) totalTimeToDraw--;
+                    totalTimesToDraw = Math.DivRem(totalNumToDraw, 10, out lastRound) + 1;
+                    if (lastRound == 0) totalTimesToDraw--;
                 }
             }
             catch (Exception)
@@ -82,7 +87,7 @@ namespace WpfApplication1
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             InitializeCandidates();
-            labels = new Label[] { lbl0, lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7, lbl8, lbl9 };
+
         }
 
         private void Window_KeyUp(object sender, KeyEventArgs e)
@@ -99,15 +104,15 @@ namespace WpfApplication1
                         timer.Stop();
                         // 保存数据
                         // 从候选人员中减去
-                        SaveToCsv(@"C:\Users\George\Desktop\28.csv");
+                        SaveToCsv(Environment.ExpandEnvironmentVariables(@"%UserProfile%\Desktop\28.csv"));
                         isRolling = false;
-                        if (drawingTime == totalTimeToDraw)    // if(drawingTime==totalTimeToDraw)
+                        if (drawingTime == totalTimesToDraw)    // if(drawingTime==totalTimeToDraw)
                         {
                             drawingAward = Awards.B;
 
                             totalNumToDraw = (int)Math.Floor((double)allCandiNum * 0.2);
-                            totalTimeToDraw = Math.DivRem(totalNumToDraw, 10, out lastRound) + 1;
-                            if (lastRound == 0) totalTimeToDraw--;
+                            totalTimesToDraw = Math.DivRem(totalNumToDraw, 10, out lastRound) + 1;
+                            if (lastRound == 0) totalTimesToDraw--;
                             drawingTime = 0;
                             thisRound = 10;
 
@@ -124,11 +129,16 @@ namespace WpfApplication1
                                 labels[i].Visibility = Visibility.Visible;
                             }
                             lastRoundStop = false;
+
+                            lblAward.Content = "28元档";
+                            lblRest.Content = dtTable.Rows.Count;
+                            lblPercent.Content = "20%  = ";
+                            lblNumToDraw.Content = totalNumToDraw;
                             break;
                         }
 
                         drawingTime++;
-                        if (drawingTime == totalTimeToDraw && lastRound != 0)
+                        if (drawingTime == totalTimesToDraw && lastRound != 0)
                         {
                             thisRound = lastRound;
                             for (int i = 9; i >= lastRound; i--)
@@ -147,15 +157,15 @@ namespace WpfApplication1
                         timer.Stop();
                         // 保存数据
                         // 从候选人员中减去
-                        SaveToCsv(@"C:\Users\George\Desktop\38.csv");
+                        SaveToCsv(Environment.ExpandEnvironmentVariables(@"%UserProfile%\Desktop\38.csv"));
                         isRolling = false;
-                        if (drawingTime == totalTimeToDraw)    // if(drawingTime==totalTimeToDraw)
+                        if (drawingTime == totalTimesToDraw)    // if(drawingTime==totalTimeToDraw)
                         {
                             drawingAward = Awards.C;
 
                             totalNumToDraw = (int)Math.Floor((double)allCandiNum * 0.3);
-                            totalTimeToDraw = Math.DivRem(totalNumToDraw, 10, out lastRound) + 1;
-                            if (lastRound == 0) totalTimeToDraw--;
+                            totalTimesToDraw = Math.DivRem(totalNumToDraw, 10, out lastRound) + 1;
+                            if (lastRound == 0) totalTimesToDraw--;
                             drawingTime = 0;
                             thisRound = 10;
 
@@ -172,11 +182,16 @@ namespace WpfApplication1
                                 labels[i].Visibility = Visibility.Visible;
                             }
                             lastRoundStop = false;
+
+                            lblAward.Content = "38元档";
+                            lblRest.Content = dtTable.Rows.Count;
+                            lblPercent.Content = "20%  = ";
+                            lblNumToDraw.Content = totalNumToDraw;
                             break;
                         }
 
                         drawingTime++;
-                        if (drawingTime == totalTimeToDraw && lastRound != 0)
+                        if (drawingTime == totalTimesToDraw && lastRound != 0)
                         {
                             thisRound = lastRound;
                             for (int i = 9; i >= lastRound; i--)
@@ -195,15 +210,15 @@ namespace WpfApplication1
                         timer.Stop();
                         // 保存数据
                         // 从候选人员中减去
-                        SaveToCsv(@"C:\Users\George\Desktop\48.csv");
+                        SaveToCsv(Environment.ExpandEnvironmentVariables(@"%UserProfile%\Desktop\48.csv"));
                         isRolling = false;
-                        if (drawingTime == totalTimeToDraw)    // if(drawingTime==totalTimeToDraw)
+                        if (drawingTime == totalTimesToDraw)    // if(drawingTime==totalTimeToDraw)
                         {
                             drawingAward = Awards.D;
 
                             totalNumToDraw = allCandiNum - (int)Math.Floor((double)allCandiNum * 0.2) - (int)Math.Floor((double)allCandiNum * 0.2) - (int)Math.Floor((double)allCandiNum * 0.3);
-                            totalTimeToDraw = Math.DivRem(totalNumToDraw, 10, out lastRound) + 1;
-                            if (lastRound == 0) totalTimeToDraw--;
+                            totalTimesToDraw = Math.DivRem(totalNumToDraw, 10, out lastRound) + 1;
+                            if (lastRound == 0) totalTimesToDraw--;
                             drawingTime = 0;
                             thisRound = 10;
 
@@ -220,11 +235,16 @@ namespace WpfApplication1
                                 labels[i].Visibility = Visibility.Visible;
                             }
                             lastRoundStop = false;
+
+                            lblAward.Content = "48元档";
+                            lblRest.Content = dtTable.Rows.Count;
+                            lblPercent.Content = "30%  = ";
+                            lblNumToDraw.Content = totalNumToDraw;
                             break;
                         }
 
                         drawingTime++;
-                        if (drawingTime == totalTimeToDraw && lastRound != 0)
+                        if (drawingTime == totalTimesToDraw && lastRound != 0)
                         {
                             thisRound = lastRound;
                             for (int i = 9; i >= lastRound; i--)
@@ -243,17 +263,17 @@ namespace WpfApplication1
                         timer.Stop();
                         // 保存数据
                         // 从候选人员中减去
-                        SaveToCsv(@"C:\Users\George\Desktop\58.csv");
+                        SaveToCsv(Environment.ExpandEnvironmentVariables(@"%UserProfile%\Desktop\58.csv"));
                         isRolling = false;
-                        if (drawingTime == totalTimeToDraw)    // if(drawingTime==totalTimeToDraw)
+                        if (drawingTime == totalTimesToDraw)    // if(drawingTime==totalTimeToDraw)
                         {
                             drawingAward = Awards.None;
 
-                            totalNumToDraw = (int)Math.Floor((double)allCandiNum * 0.2);
-                            totalTimeToDraw = Math.DivRem(totalNumToDraw, 10, out lastRound) + 1;
-                            if (lastRound == 0) totalTimeToDraw--;
-                            drawingTime = 0;
-                            thisRound = 10;
+                            //totalNumToDraw = (int)Math.Floor((double)allCandiNum * 0.2);
+                            //totalTimesToDraw = Math.DivRem(totalNumToDraw, 10, out lastRound) + 1;
+                            //if (lastRound == 0) totalTimesToDraw--;
+                            //drawingTime = 0;
+                            //thisRound = 10;
 
                             lastRoundStop = true;
                         }
@@ -268,11 +288,16 @@ namespace WpfApplication1
                                 labels[i].Visibility = Visibility.Visible;
                             }
                             lastRoundStop = false;
+
+                            lblAward.Content = "58元档";
+                            lblRest.Content = dtTable.Rows.Count;
+                            lblPercent.Content = "20%  = ";
+                            lblNumToDraw.Content = totalNumToDraw;
                             break;
                         }
 
                         drawingTime++;
-                        if (drawingTime == totalTimeToDraw && lastRound != 0)
+                        if (drawingTime == totalTimesToDraw && lastRound != 0)
                         {
                             thisRound = lastRound;
                             for (int i = 9; i >= lastRound; i--)

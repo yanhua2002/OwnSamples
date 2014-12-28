@@ -2,91 +2,94 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="WpfApplication1.MainWindow"
-        Title="MainWindow" Height="768" Width="1024" AllowsTransparency="True" WindowStyle="None" Background="Red" Loaded="Window_Loaded" KeyUp="Window_KeyUp">
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition/>
-			<RowDefinition Height="4*"/>
-			<RowDefinition/>
-		</Grid.RowDefinitions>
-		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-			<Label Content="抽取红包" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="48"/>
-			<Label Content="28元档" FontSize="48"/>
-		</StackPanel>
-		<Grid Grid.Row="1" Margin="40,0">
-			<Grid.RowDefinitions>
-				<RowDefinition/>
-				<RowDefinition/>
-				<RowDefinition/>
-				<RowDefinition/>
-				<RowDefinition/>
-			</Grid.RowDefinitions>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition/>
-				<ColumnDefinition/>
-			</Grid.ColumnDefinitions>
-			<StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
-				<Label x:Name="lbl0" Content="Label" VerticalAlignment="Center" FontSize="21.333"/>
-				<Label Content="Label" VerticalAlignment="Center" FontSize="21.333"/>
-			</StackPanel>
+        Title="MainWindow" Height="768" Width="1024" AllowsTransparency="True" WindowStyle="None" Loaded="Window_Loaded" KeyUp="Window_KeyUp">
+    <Window.Background>
+        <ImageBrush ImageSource="background.jpg"/>
+    </Window.Background>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <Label Content="抽取红包" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="48"/>
+            <Label x:Name="lblAward" Content="28元档" FontSize="48"/>
+        </StackPanel>
+        <Grid Grid.Row="1" Margin="40,0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
+                <Label x:Name="lbl0" Content="--------" VerticalAlignment="Center" FontSize="21.333"/>
+                <Label Content="Label" VerticalAlignment="Center" FontSize="21.333" d:IsHidden="True"/>
+            </StackPanel>
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="1">
-                <Label x:Name="lbl1" Content="Label" VerticalAlignment="Center" FontSize="21.333"/>
-                <Label Content="Label" VerticalAlignment="Center" FontSize="21.333"/>
+                <Label x:Name="lbl1" Content="--------" VerticalAlignment="Center" FontSize="21.333"/>
+                <Label Content="Label" VerticalAlignment="Center" FontSize="21.333" d:IsHidden="True"/>
             </StackPanel>
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="1">
-                <Label x:Name="lbl2" Content="Label" VerticalAlignment="Center" FontSize="21.333"/>
-                <Label Content="Label" VerticalAlignment="Center" FontSize="21.333"/>
+                <Label x:Name="lbl2" Content="--------" VerticalAlignment="Center" FontSize="21.333"/>
+                <Label Content="Label" VerticalAlignment="Center" FontSize="21.333" d:IsHidden="True"/>
             </StackPanel>
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1">
-                <Label x:Name="lbl3" Content="Label" VerticalAlignment="Center" FontSize="21.333"/>
-                <Label Content="Label" VerticalAlignment="Center" FontSize="21.333"/>
+                <Label x:Name="lbl3" Content="--------" VerticalAlignment="Center" FontSize="21.333"/>
+                <Label Content="Label" VerticalAlignment="Center" FontSize="21.333" d:IsHidden="True"/>
             </StackPanel>
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="2">
-                <Label x:Name="lbl4" Content="Label" VerticalAlignment="Center" FontSize="21.333"/>
-                <Label Content="Label" VerticalAlignment="Center" FontSize="21.333"/>
+                <Label x:Name="lbl4" Content="--------" VerticalAlignment="Center" FontSize="21.333"/>
+                <Label Content="Label" VerticalAlignment="Center" FontSize="21.333" d:IsHidden="True"/>
             </StackPanel>
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1">
-                <Label x:Name="lbl5" Content="Label" VerticalAlignment="Center" FontSize="21.333"/>
-                <Label Content="Label" VerticalAlignment="Center" FontSize="21.333"/>
+                <Label x:Name="lbl5" Content="--------" VerticalAlignment="Center" FontSize="21.333"/>
+                <Label Content="Label" VerticalAlignment="Center" FontSize="21.333" d:IsHidden="True"/>
             </StackPanel>
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="3">
-                <Label x:Name="lbl6" Content="Label" VerticalAlignment="Center" FontSize="21.333"/>
-                <Label Content="Label" VerticalAlignment="Center" FontSize="21.333"/>
+                <Label x:Name="lbl6" Content="--------" VerticalAlignment="Center" FontSize="21.333"/>
+                <Label Content="Label" VerticalAlignment="Center" FontSize="21.333" d:IsHidden="True"/>
             </StackPanel>
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1">
-                <Label x:Name="lbl7" Content="Label" VerticalAlignment="Center" FontSize="21.333"/>
-                <Label Content="Label" VerticalAlignment="Center" FontSize="21.333"/>
+                <Label x:Name="lbl7" Content="--------" VerticalAlignment="Center" FontSize="21.333"/>
+                <Label Content="Label" VerticalAlignment="Center" FontSize="21.333" d:IsHidden="True"/>
             </StackPanel>
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="4">
-                <Label x:Name="lbl8" Content="Label" VerticalAlignment="Center" FontSize="21.333"/>
-                <Label Content="Label" VerticalAlignment="Center" FontSize="21.333"/>
+                <Label x:Name="lbl8" Content="--------" VerticalAlignment="Center" FontSize="21.333"/>
+                <Label Content="Label" VerticalAlignment="Center" FontSize="21.333" d:IsHidden="True"/>
             </StackPanel>
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1">
-                <Label x:Name="lbl9" Content="Label" VerticalAlignment="Center" FontSize="21.333"/>
-                <Label Content="Label" VerticalAlignment="Center" FontSize="21.333"/>
+                <Label x:Name="lbl9" Content="--------" VerticalAlignment="Center" FontSize="21.333"/>
+                <Label Content="Label" VerticalAlignment="Center" FontSize="21.333" d:IsHidden="True"/>
             </StackPanel>
         </Grid>
-		<Grid Grid.Row="2">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition/>
-				<ColumnDefinition Width="2*"/>
-				<ColumnDefinition Width="2*"/>
-				<ColumnDefinition Width="3*"/>
-				<ColumnDefinition Width="2*"/>
-				<ColumnDefinition Width="2*"/>
-				<ColumnDefinition/>
-			</Grid.ColumnDefinitions>
-			<Label Content="28" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24"/>
-			<Label Content="38" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24"/>
-			<Label Content="48" Grid.Column="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24"/>
-			<Label Content="58" Grid.Column="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24"/>
-			<StackPanel Grid.ColumnSpan="7" VerticalAlignment="Bottom" Height="30" Orientation="Horizontal" HorizontalAlignment="Center">
-				<Label Content="现在剩余抽奖人数："/>
-				<Label Content="XXX"/>
-				<Label Content="该奖项共抽取： 总人数  X"/>
-				<Label Content="xx%  = "/>
-				<Label Content="XXX"/>
-			</StackPanel>
-		</Grid>
-	</Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label Content="28" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24"/>
+            <Label Content="38" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24"/>
+            <Label Content="48" Grid.Column="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24"/>
+            <Label Content="58" Grid.Column="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24"/>
+            <StackPanel Grid.ColumnSpan="7" VerticalAlignment="Bottom" Height="30" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label Content="现在剩余抽奖人数："/>
+                <Label x:Name="lblRest" Content="XXX"/>
+                <Label Content="该奖项共抽取： 总人数  X"/>
+                <Label x:Name="lblPercent" Content="xx%  = "/>
+                <Label x:Name="lblNumToDraw" Content="XXX"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
 </Window>
