@@ -25,6 +25,7 @@ namespace WpfApplication1
         DataTable dtTable = new DataTable();
 
         Awards drawingAward = Awards.A;
+        Awards2 drawingAward2 = Awards2.FifthPrize;
 
         int allCandiNum, restCandiNum;           // 所有抽奖的总人数，剩余抽奖的人数
         int totalNumToDraw, totalTimesToDraw;    // 当前奖项共抽取多少人，需抽取多少次
@@ -73,9 +74,6 @@ namespace WpfApplication1
 
                     restCandiNum = allCandiNum = dtTable.Rows.Count;
 
-                    totalNumToDraw = 3;
-                    totalTimesToDraw = Math.DivRem(totalNumToDraw, 10, out lastRound) + 1;
-                    if (lastRound == 0) totalTimesToDraw--;
                 }
             }
             catch (Exception)
@@ -89,6 +87,10 @@ namespace WpfApplication1
         {
             InitializeCandidates();
 
+            // 首先抽取5等奖
+            drawingAward2 = Awards2.FifthPrize;
+            totalNumToDraw = 40;
+            totalTimesToDraw = 4;
         }
 
         private void Window_KeyUp(object sender, KeyEventArgs e)
@@ -96,6 +98,7 @@ namespace WpfApplication1
             if (e.Key != Key.Space)
                 return;
 
+            #region 28-58
 
             switch (drawingAward)
             {
@@ -313,7 +316,296 @@ namespace WpfApplication1
                     break;
             }
 
+            #endregion
 
+            switch (drawingAward2)
+            {
+                case Awards2.GrandPrize:
+                    if (isRolling)
+                    {
+                        timer.Stop();
+                        // 保存数据
+                        // 从候选人员中减去
+                        SaveToCsv(Environment.ExpandEnvironmentVariables(@"%UserProfile%\Desktop\0.csv"));
+                        isRolling = false;
+                        if (drawingTime == totalTimesToDraw)    // if(drawingTime==totalTimeToDraw)
+                        {
+                            drawingAward2 = Awards2.NonePrize;
+
+                            totalNumToDraw = 1;
+                            totalTimesToDraw = 1;
+
+                            drawingTime = 0;
+
+
+                            lastRoundStop = true;
+                        }
+                    }
+                    else
+                    {
+                        if (lastRoundStop)
+                        {
+                            for (int i = 0; i < 10; i++)
+                            {
+                                labels[i].Content = "********";
+                                labels[i].Visibility = Visibility.Visible;
+                            }
+                            lastRoundStop = false;
+
+                            // 现在正在抽取多少名更新
+                            lblRest.Content = dtTable.Rows.Count;
+                            lblPercent.Content = "20%  = ";
+                            lblNumToDraw.Content = totalNumToDraw;
+                            break;
+                        }
+
+                        drawingTime++;
+                        timer.Start();
+                        isRolling = true;
+
+                    }
+
+
+                    break;
+                case Awards2.FirstPrize:
+                    if (isRolling)
+                    {
+                        timer.Stop();
+                        // 保存数据
+                        // 从候选人员中减去
+                        SaveToCsv(Environment.ExpandEnvironmentVariables(@"%UserProfile%\Desktop\1.csv"));
+                        isRolling = false;
+                        if (drawingTime == totalTimesToDraw)    // if(drawingTime==totalTimeToDraw)
+                        {
+                            drawingAward2 = Awards2.GrandPrize;
+
+                            totalNumToDraw = 1;
+                            totalTimesToDraw = 1;
+
+                            drawingTime = 0;
+
+
+                            lastRoundStop = true;
+                        }
+                    }
+                    else
+                    {
+                        if (lastRoundStop)
+                        {
+                            for (int i = 0; i < 10; i++)
+                            {
+                                labels[i].Content = "********";
+                                labels[i].Visibility = Visibility.Visible;
+                            }
+                            lastRoundStop = false;
+
+                            // 现在正在抽取多少名更新
+                            lblRest.Content = dtTable.Rows.Count;
+                            lblPercent.Content = "20%  = ";
+                            lblNumToDraw.Content = totalNumToDraw;
+                            break;
+                        }
+
+                        drawingTime++;
+                        timer.Start();
+                        isRolling = true;
+
+                    }
+
+
+                    break;
+                case Awards2.SecondPrize:
+                    if (isRolling)
+                    {
+                        timer.Stop();
+                        // 保存数据
+                        // 从候选人员中减去
+                        SaveToCsv(Environment.ExpandEnvironmentVariables(@"%UserProfile%\Desktop\2.csv"));
+                        isRolling = false;
+                        if (drawingTime == totalTimesToDraw)    // if(drawingTime==totalTimeToDraw)
+                        {
+                            drawingAward2 = Awards2.FirstPrize;
+
+                            totalNumToDraw = 5;
+                            totalTimesToDraw = 1;
+
+                            drawingTime = 0;
+
+
+                            lastRoundStop = true;
+                        }
+                    }
+                    else
+                    {
+                        if (lastRoundStop)
+                        {
+                            for (int i = 0; i < 10; i++)
+                            {
+                                labels[i].Content = "********";
+                                labels[i].Visibility = Visibility.Visible;
+                            }
+                            lastRoundStop = false;
+
+                            // 现在正在抽取多少名更新
+                            lblRest.Content = dtTable.Rows.Count;
+                            lblPercent.Content = "20%  = ";
+                            lblNumToDraw.Content = totalNumToDraw;
+                            break;
+                        }
+
+                        drawingTime++;
+                        timer.Start();
+                        isRolling = true;
+
+                    }
+
+
+                    break;
+                case Awards2.ThirdPrize:
+                    if (isRolling)
+                    {
+                        timer.Stop();
+                        // 保存数据
+                        // 从候选人员中减去
+                        SaveToCsv(Environment.ExpandEnvironmentVariables(@"%UserProfile%\Desktop\3.csv"));
+                        isRolling = false;
+                        if (drawingTime == totalTimesToDraw)    // if(drawingTime==totalTimeToDraw)
+                        {
+                            drawingAward2 = Awards2.SecondPrize;
+
+                            totalNumToDraw = 10;
+                            totalTimesToDraw = 1;
+
+                            drawingTime = 0;
+
+
+                            lastRoundStop = true;
+                        }
+                    }
+                    else
+                    {
+                        if (lastRoundStop)
+                        {
+                            for (int i = 0; i < 10; i++)
+                            {
+                                labels[i].Content = "********";
+                                labels[i].Visibility = Visibility.Visible;
+                            }
+                            lastRoundStop = false;
+
+                            // 现在正在抽取多少名更新
+                            lblRest.Content = dtTable.Rows.Count;
+                            lblPercent.Content = "20%  = ";
+                            lblNumToDraw.Content = totalNumToDraw;
+                            break;
+                        }
+
+                        drawingTime++;
+                        timer.Start();
+                        isRolling = true;
+
+                    }
+
+
+                    break;
+                case Awards2.FourthPrize:
+                    if (isRolling)
+                    {
+                        timer.Stop();
+                        // 保存数据
+                        // 从候选人员中减去
+                        SaveToCsv(Environment.ExpandEnvironmentVariables(@"%UserProfile%\Desktop\4.csv"));
+                        isRolling = false;
+                        if (drawingTime == totalTimesToDraw)    // if(drawingTime==totalTimeToDraw)
+                        {
+                            drawingAward2 = Awards2.ThirdPrize;
+
+                            totalNumToDraw = 20;
+                            totalTimesToDraw = 2;
+
+                            drawingTime = 0;
+
+
+                            lastRoundStop = true;
+                        }
+                    }
+                    else
+                    {
+                        if (lastRoundStop)
+                        {
+                            for (int i = 0; i < 10; i++)
+                            {
+                                labels[i].Content = "********";
+                                labels[i].Visibility = Visibility.Visible;
+                            }
+                            lastRoundStop = false;
+
+                            // 现在正在抽取多少名更新
+                            lblRest.Content = dtTable.Rows.Count;
+                            lblPercent.Content = "20%  = ";
+                            lblNumToDraw.Content = totalNumToDraw;
+                            break;
+                        }
+
+                        drawingTime++;
+                        timer.Start();
+                        isRolling = true;
+
+                    }
+
+
+                    break;
+                case Awards2.FifthPrize:
+                    if (isRolling)
+                    {
+                        timer.Stop();
+                        // 保存数据
+                        // 从候选人员中减去
+                        SaveToCsv(Environment.ExpandEnvironmentVariables(@"%UserProfile%\Desktop\5.csv"));
+                        isRolling = false;
+                        if (drawingTime == totalTimesToDraw)    // if(drawingTime==totalTimeToDraw)
+                        {
+                            drawingAward2 = Awards2.FourthPrize;
+
+                            totalNumToDraw = 30;
+                            totalTimesToDraw = 3;
+                            
+                            drawingTime = 0;
+                            
+
+                            lastRoundStop = true;
+                        }
+                    }
+                    else
+                    {
+                        if (lastRoundStop)
+                        {
+                            for (int i = 0; i < 10; i++)
+                            {
+                                labels[i].Content = "********";
+                                labels[i].Visibility = Visibility.Visible;
+                            }
+                            lastRoundStop = false;
+
+                            // 现在正在抽取多少名更新
+                            lblRest.Content = dtTable.Rows.Count;
+                            lblPercent.Content = "20%  = ";
+                            lblNumToDraw.Content = totalNumToDraw;
+                            break;
+                        }
+
+                        drawingTime++;
+                        timer.Start();
+                        isRolling = true;
+
+                    }
+
+                    break;
+                case Awards2.NonePrize:
+                    break;
+                default:
+                    break;
+            }
         }
 
         void timer_Tick(object sender, EventArgs e)
