@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Data;
 using System.Data.Odbc;
 using System.IO;
@@ -28,7 +29,7 @@ namespace WpfApplication1
         int allCandiNum, restCandiNum;           // 所有抽奖的总人数，剩余抽奖的人数
         int totalNumToDraw, totalTimesToDraw;    // 当前奖项共抽取多少人，需抽取多少次
         int drawingTime = 0;                    // 当前奖项在抽取第几次
-        int lastRound, thisRound = 10;          // 当前奖项最后一次抽取需抽取多少人
+        int lastRound, thisRound = 3;          // 当前奖项最后一次抽取需抽取多少人
 
         int[] random;                           // 每一次滚动时的随机序列
 
@@ -72,7 +73,7 @@ namespace WpfApplication1
 
                     restCandiNum = allCandiNum = dtTable.Rows.Count;
 
-                    totalNumToDraw = (int)Math.Floor((double)allCandiNum * 0.2);
+                    totalNumToDraw = 3;
                     totalTimesToDraw = Math.DivRem(totalNumToDraw, 10, out lastRound) + 1;
                     if (lastRound == 0) totalTimesToDraw--;
                 }
@@ -110,11 +111,11 @@ namespace WpfApplication1
                         {
                             drawingAward = Awards.B;
 
-                            totalNumToDraw = (int)Math.Floor((double)allCandiNum * 0.2);
+                            totalNumToDraw = 6;
                             totalTimesToDraw = Math.DivRem(totalNumToDraw, 10, out lastRound) + 1;
                             if (lastRound == 0) totalTimesToDraw--;
                             drawingTime = 0;
-                            thisRound = 10;
+                            thisRound = 6;
 
                             lastRoundStop = true;
                         }
@@ -130,7 +131,6 @@ namespace WpfApplication1
                             }
                             lastRoundStop = false;
 
-                            lblAward.Content = "28元档";
                             lblRest.Content = dtTable.Rows.Count;
                             lblPercent.Content = "20%  = ";
                             lblNumToDraw.Content = totalNumToDraw;
@@ -163,11 +163,11 @@ namespace WpfApplication1
                         {
                             drawingAward = Awards.C;
 
-                            totalNumToDraw = (int)Math.Floor((double)allCandiNum * 0.3);
+                            totalNumToDraw = 8;
                             totalTimesToDraw = Math.DivRem(totalNumToDraw, 10, out lastRound) + 1;
                             if (lastRound == 0) totalTimesToDraw--;
                             drawingTime = 0;
-                            thisRound = 10;
+                            thisRound = 9;
 
                             lastRoundStop = true;
                         }
@@ -183,7 +183,6 @@ namespace WpfApplication1
                             }
                             lastRoundStop = false;
 
-                            lblAward.Content = "38元档";
                             lblRest.Content = dtTable.Rows.Count;
                             lblPercent.Content = "20%  = ";
                             lblNumToDraw.Content = totalNumToDraw;
@@ -216,9 +215,10 @@ namespace WpfApplication1
                         {
                             drawingAward = Awards.D;
 
-                            totalNumToDraw = allCandiNum - (int)Math.Floor((double)allCandiNum * 0.2) - (int)Math.Floor((double)allCandiNum * 0.2) - (int)Math.Floor((double)allCandiNum * 0.3);
+                            //totalNumToDraw = allCandiNum - (int)Math.Ceiling((double)allCandiNum * 0.2) - (int)Math.Ceiling((double)allCandiNum * 0.2) - (int)Math.Floor((double)allCandiNum * 0.3);
+                            totalNumToDraw = 9;
                             totalTimesToDraw = Math.DivRem(totalNumToDraw, 10, out lastRound) + 1;
-                            if (lastRound == 0) totalTimesToDraw--;
+                               if (lastRound == 0) totalTimesToDraw--;
                             drawingTime = 0;
                             thisRound = 10;
 
@@ -236,7 +236,6 @@ namespace WpfApplication1
                             }
                             lastRoundStop = false;
 
-                            lblAward.Content = "48元档";
                             lblRest.Content = dtTable.Rows.Count;
                             lblPercent.Content = "30%  = ";
                             lblNumToDraw.Content = totalNumToDraw;
@@ -289,7 +288,6 @@ namespace WpfApplication1
                             }
                             lastRoundStop = false;
 
-                            lblAward.Content = "58元档";
                             lblRest.Content = dtTable.Rows.Count;
                             lblPercent.Content = "20%  = ";
                             lblNumToDraw.Content = totalNumToDraw;
@@ -346,9 +344,30 @@ namespace WpfApplication1
             return rArray;
         }
 
-        enum Awards
+        enum Awards{ A, B, C, D, None }
+
+        enum Awards2
         {
-            A, B, C, D, None
+            [Description("特等奖")]
+            GrandPrize = 0,
+
+            [Description("一等奖")]
+            FirstPrize = 1,
+
+            [Description("二等奖")]
+            SecondPrize = 2,
+
+            [Description("三等奖")]
+            ThirdPrize = 3,
+
+            [Description("四等奖")]
+            FourthPrize = 4,
+
+            [Description("五等奖")]
+            FifthPrize = 5,
+
+            [Description("")]
+            NonePrize = 6
         }
 
         void SaveToCsv(string csvName)
