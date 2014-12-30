@@ -635,6 +635,7 @@ namespace WpfApplication1
 
                     break;
                 case Awards2.NonePrize:
+                    labels[0].Content = "抽奖完成";
                     break;
                 default:
                     break;
