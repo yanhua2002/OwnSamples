@@ -346,8 +346,8 @@ namespace WpfApplication1
                         if (lastRoundStop)
                         {
                             labels[0].Content = "********";
-                            labels[0].Width = 500;
-                            labels[0].Height = 100;
+                            labels[0].Width = 750;
+                            labels[0].Height = 150;
                             labels[0].FontSize = 80;
 
                             lastRoundStop = false;
@@ -401,6 +401,11 @@ namespace WpfApplication1
                                 //labels[i].Content = "********";
                                 labels[i].Visibility = Visibility.Collapsed;
                             }
+
+                            labels[0].Width = 500;
+                            labels[0].Height = 100;
+                            labels[0].FontSize = 60;
+
                             lastRoundStop = false;
                             lblAwards2.Content = "一等奖";
                             lblNum.Content = "前" + (drawingTime * 1).ToString() + "/" + totalNumToDraw.ToString() + "名";
