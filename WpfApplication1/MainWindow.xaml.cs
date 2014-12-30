@@ -597,8 +597,8 @@ namespace WpfApplication1
                             totalTimesToDraw = 3;
                             
                             drawingTime = 0;
-                            
 
+                            RemoveLowerRank();
                             lastRoundStop = true;
                         }
                     }
@@ -702,6 +702,20 @@ namespace WpfApplication1
             restCandiNum = restCandiNum - random.Count();
 
             sw.Close();
+        }
+
+        void RemoveLowerRank()
+        {
+            for (int i = 0; i < dtTable.Rows.Count; i++)
+            {
+                string tempStr = dtTable.Rows[i]["Rank"].ToString();
+                //if (tempStr == "TTSR" || tempStr == "BPR")
+                //    dtTable.Rows[i].Delete();
+                if (string.Equals(tempStr, "TTSR") || string.Equals(tempStr, "BPR"))
+                    dtTable.Rows[i].Delete();
+            }
+            dtTable.AcceptChanges();
+            restCandiNum = dtTable.Rows.Count;
         }
     }
 }
