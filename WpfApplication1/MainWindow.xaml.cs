@@ -68,9 +68,6 @@ namespace WpfApplication1
 
                     adapter.Fill(dtTable);
 
-                    dtTable.Columns[0].ColumnName = "ID";
-                    dtTable.Columns[1].ColumnName = "Name";
-
                     restCandiNum = allCandiNum = dtTable.Rows.Count;
 
                 }
