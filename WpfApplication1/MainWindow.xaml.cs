@@ -27,7 +27,7 @@ namespace WpfApplication1
         Awards2 drawingAward2 = Awards2.FifthPrize;
 
         int allCandiNum, restCandiNum;           // 所有抽奖的总人数，剩余抽奖的人数
-        int totalNumToDraw, totalTimesToDraw;    // 当前奖项共抽取多少人，需抽取多少次
+        int totalNumToDraw, totalTimesToDraw, numPerDraw=10;    // 当前奖项共抽取多少人，需抽取多少次
         int drawingTime = 0;                    // 当前奖项在抽取第几次
         int lastRound, thisRound;          // 当前奖项最后一次抽取需抽取多少人
 
@@ -38,7 +38,7 @@ namespace WpfApplication1
 
         bool isRolling = false;
 
-        bool lastRoundStop = true;              // 当前奖项最后一次抽取是否完成，用于切换至下一奖项时的暂停画面
+        bool hasLastRoundCompleted = true;              // 当前奖项最后一次抽取是否完成，用于切换至下一奖项时的暂停画面
 
         #endregion
 
@@ -84,9 +84,9 @@ namespace WpfApplication1
             InitializeCandidates();
 
             // 首先抽取5等奖
-            drawingAward2 = Awards2.FifthPrize;
-            totalNumToDraw = 40;
-            totalTimesToDraw = 4;
+            drawingAward2 = Awards2.SeventhPrize;
+            totalNumToDraw = 121;
+            totalTimesToDraw = 13;
             drawingTime = 0;
         }
 
@@ -335,19 +335,19 @@ namespace WpfApplication1
                             drawingTime = 0;
 
 
-                            lastRoundStop = true;
+                            hasLastRoundCompleted = true;
                         }
                     }
                     else
                     {
-                        if (lastRoundStop)
+                        if (hasLastRoundCompleted)
                         {
                             labels[0].Content = "********";
                             labels[0].Width = 750;
                             labels[0].Height = 150;
                             labels[0].FontSize = 80;
 
-                            lastRoundStop = false;
+                            hasLastRoundCompleted = false;
                             lblAwards2.Content = "特等奖";
                             lblNum.Content = "前" + (drawingTime * 1).ToString() + "/" + totalNumToDraw.ToString() + "名";
 
@@ -377,7 +377,7 @@ namespace WpfApplication1
                         isRolling = false;
                         if (drawingTime == totalTimesToDraw)    // if(drawingTime==totalTimeToDraw)
                         {
-                            drawingAward2 = Awards2.GrandPrize;
+                            drawingAward2 = Awards2.NonePrize;
 
                             totalNumToDraw = 1;
                             totalTimesToDraw = 1;
@@ -385,12 +385,12 @@ namespace WpfApplication1
                             drawingTime = 0;
 
 
-                            lastRoundStop = true;
+                            hasLastRoundCompleted = true;
                         }
                     }
                     else
                     {
-                        if (lastRoundStop)
+                        if (hasLastRoundCompleted)
                         {
                             labels[0].Content = "********";
                             for (int i = 1; i < 10; i++)
@@ -399,13 +399,13 @@ namespace WpfApplication1
                                 labels[i].Visibility = Visibility.Collapsed;
                             }
 
-                            labels[0].Width = 500;
-                            labels[0].Height = 100;
-                            labels[0].FontSize = 60;
+                            labels[0].Width = 750;
+                            labels[0].Height = 150;
+                            labels[0].FontSize = 75;
 
-                            lastRoundStop = false;
+                            hasLastRoundCompleted = false;
                             lblAwards2.Content = "一等奖";
-                            lblNum.Content = "前" + (drawingTime * 1).ToString() + "/" + totalNumToDraw.ToString() + "名";
+                            lblNum.Content = "前" + ((drawingTime * numPerDraw) >= totalNumToDraw ? totalNumToDraw : (drawingTime * numPerDraw)).ToString() + "/" + totalNumToDraw.ToString() + "名";
 
                             // 现在正在抽取多少名更新
                             //lblRest.Content = dtTable.Rows.Count;
@@ -415,8 +415,15 @@ namespace WpfApplication1
                         }
 
                         drawingTime++;
-                        thisRound = 1;
-                        lblNum.Content = "前" + (drawingTime * 1).ToString() + "/" + totalNumToDraw.ToString() + "名";
+                        thisRound = (drawingTime * numPerDraw) > totalNumToDraw ? totalNumToDraw % numPerDraw : numPerDraw;
+                        lblNum.Content = "前" + ((drawingTime * numPerDraw) >= totalNumToDraw ? totalNumToDraw : (drawingTime * numPerDraw)).ToString() + "/" + totalNumToDraw.ToString() + "名";
+                        if (thisRound < 10)
+                        {
+                            for (int i = thisRound; i < 10; i++)
+                            {
+                                labels[i].Visibility = Visibility.Collapsed;
+                            }
+                        }
                         timer.Start();
                         isRolling = true;
 
@@ -436,31 +443,33 @@ namespace WpfApplication1
                         {
                             drawingAward2 = Awards2.FirstPrize;
 
-                            totalNumToDraw = 5;
-                            totalTimesToDraw = 5;       // 分5次抽取，每次1个
-
+                            totalNumToDraw = 3;
+                            totalTimesToDraw = 3;       // 分5次抽取，每次1个
+                            numPerDraw = 1;
                             drawingTime = 0;
 
 
-                            lastRoundStop = true;
+                            hasLastRoundCompleted = true;
                         }
                     }
                     else
                     {
-                        if (lastRoundStop)
+                        if (hasLastRoundCompleted)
                         {
-                            for (int i = 0; i < 5; i++)
+                            for (int i = 1; i < 10; i++)
                             {
-                                labels[i].Content = "********";
-                                labels[i].Visibility = Visibility.Visible;
+                                //labels[i].Content = "********";
+                                labels[i].Visibility = Visibility.Collapsed;
                             }
-                            for (int j = 5; j < 10; j++)
-                            {
-                                labels[j].Visibility = Visibility.Collapsed;
-                            }
-                            lastRoundStop = false;
+
+                            labels[0].Content = "********";
+                            labels[0].Width = 500;
+                            labels[0].Height = 100;
+                            labels[0].FontSize = 60;
+
+                            hasLastRoundCompleted = false;
                             lblAwards2.Content = "二等奖";
-                            lblNum.Content = "前" + (drawingTime * 5).ToString() + "/" + totalNumToDraw.ToString() + "名";
+                            lblNum.Content = "前" + ((drawingTime * numPerDraw) >= totalNumToDraw ? totalNumToDraw : (drawingTime * numPerDraw)).ToString() + "/" + totalNumToDraw.ToString() + "名";
 
                             // 现在正在抽取多少名更新
                             //lblRest.Content = dtTable.Rows.Count;
@@ -470,8 +479,16 @@ namespace WpfApplication1
                         }
 
                         drawingTime++;
-                        thisRound = 5;
-                        lblNum.Content = "前" + (drawingTime * 5).ToString() + "/" + totalNumToDraw.ToString() + "名";
+                        thisRound = (drawingTime * numPerDraw) > totalNumToDraw ? totalNumToDraw % numPerDraw : numPerDraw;
+                        lblNum.Content = "前" + ((drawingTime * numPerDraw) >= totalNumToDraw ? totalNumToDraw : (drawingTime * numPerDraw)).ToString() + "/" + totalNumToDraw.ToString() + "名";
+                        // 人数较少时，隐藏多余的标签
+                        if (thisRound < 10)
+                        {
+                            for (int i = thisRound; i < 10; i++)
+                            {
+                                labels[i].Visibility = Visibility.Collapsed;
+                            }
+                        }
                         timer.Start();
                         isRolling = true;
 
@@ -491,27 +508,27 @@ namespace WpfApplication1
                         {
                             drawingAward2 = Awards2.SecondPrize;
 
-                            totalNumToDraw = 10;
-                            totalTimesToDraw = 2;       // 分两次抽取，每次5个
-
+                            totalNumToDraw = 5;
+                            totalTimesToDraw = 5;       // 分两次抽取，每次5个
+                            numPerDraw = 1;
                             drawingTime = 0;
 
 
-                            lastRoundStop = true;
+                            hasLastRoundCompleted = true;
                         }
                     }
                     else
                     {
-                        if (lastRoundStop)
+                        if (hasLastRoundCompleted)
                         {
                             for (int i = 0; i < 10; i++)
                             {
                                 labels[i].Content = "********";
                                 labels[i].Visibility = Visibility.Visible;
                             }
-                            lastRoundStop = false;
+                            hasLastRoundCompleted = false;
                             lblAwards2.Content = "三等奖";
-                            lblNum.Content = "前" + (drawingTime * 10).ToString() + "/" + totalNumToDraw.ToString() + "名";
+                            lblNum.Content = "前" + ((drawingTime * numPerDraw) >= totalNumToDraw ? totalNumToDraw : (drawingTime * numPerDraw)).ToString() + "/" + totalNumToDraw.ToString() + "名";
 
                             // 现在正在抽取多少名更新
                             //lblRest.Content = dtTable.Rows.Count;
@@ -521,8 +538,16 @@ namespace WpfApplication1
                         }
 
                         drawingTime++;
-                        thisRound = 10;
-                        lblNum.Content = "前" + (drawingTime * 10).ToString() + "/" + totalNumToDraw.ToString() + "名";
+                        thisRound = (drawingTime * numPerDraw) >= totalNumToDraw ? totalNumToDraw % numPerDraw : numPerDraw;
+                        lblNum.Content = "前" + ((drawingTime * numPerDraw) >= totalNumToDraw ? totalNumToDraw : (drawingTime * numPerDraw)).ToString() + "/" + totalNumToDraw.ToString() + "名";
+                        // 人数较少时，隐藏多余的标签
+                        if (thisRound < 10)
+                        {
+                            for (int i = thisRound; i < 10; i++)
+                            {
+                                labels[i].Visibility = Visibility.Collapsed;
+                            }
+                        }
                         timer.Start();
                         isRolling = true;
 
@@ -542,27 +567,27 @@ namespace WpfApplication1
                         {
                             drawingAward2 = Awards2.ThirdPrize;
 
-                            totalNumToDraw = 20;
+                            totalNumToDraw = 18;
                             totalTimesToDraw = 2;
-
+                            numPerDraw = 10;
                             drawingTime = 0;
 
 
-                            lastRoundStop = true;
+                            hasLastRoundCompleted = true;
                         }
                     }
                     else
                     {
-                        if (lastRoundStop)
+                        if (hasLastRoundCompleted)
                         {
                             for (int i = 0; i < 10; i++)
                             {
                                 labels[i].Content = "********";
                                 labels[i].Visibility = Visibility.Visible;
                             }
-                            lastRoundStop = false;
+                            hasLastRoundCompleted = false;
                             lblAwards2.Content = "四等奖";
-                            lblNum.Content = "前" + (drawingTime * 10).ToString() + "/" + totalNumToDraw.ToString() + "名";
+                            lblNum.Content = "前" + ((drawingTime * numPerDraw) >= totalNumToDraw ? totalNumToDraw : (drawingTime * numPerDraw)).ToString() + "/" + totalNumToDraw.ToString() + "名";
 
                             // 现在正在抽取多少名更新
                             //lblRest.Content = dtTable.Rows.Count;
@@ -572,11 +597,18 @@ namespace WpfApplication1
                         }
 
                         drawingTime++;
-                        thisRound = 10;
-                        lblNum.Content = "前" + (drawingTime * 10).ToString() + "/" + totalNumToDraw.ToString() + "名";
+                        thisRound = (drawingTime * numPerDraw) >= totalNumToDraw ? totalNumToDraw % numPerDraw : numPerDraw;
+                        lblNum.Content = "前" + ((drawingTime * numPerDraw) >= totalNumToDraw ? totalNumToDraw : (drawingTime * numPerDraw)).ToString() + "/" + totalNumToDraw.ToString() + "名";
+                        // 人数较少时，隐藏多余的标签
+                        if (thisRound < 10)
+                        {
+                            for (int i = thisRound; i < 10; i++)
+                            {
+                                labels[i].Visibility = Visibility.Collapsed;
+                            }
+                        }
                         timer.Start();
                         isRolling = true;
-
                     }
 
 
@@ -593,27 +625,27 @@ namespace WpfApplication1
                         {
                             drawingAward2 = Awards2.FourthPrize;
 
-                            totalNumToDraw = 30;
+                            totalNumToDraw = 28;
                             totalTimesToDraw = 3;
-                            
+                            numPerDraw = 10;
                             drawingTime = 0;
 
                             RemoveLowerRank();
-                            lastRoundStop = true;
+                            hasLastRoundCompleted = true;
                         }
                     }
                     else
                     {
-                        if (lastRoundStop)
+                        if (hasLastRoundCompleted)
                         {
                             for (int i = 0; i < 10; i++)
                             {
                                 labels[i].Content = "********";
                                 labels[i].Visibility = Visibility.Visible;
                             }
-                            lastRoundStop = false;
+                            hasLastRoundCompleted = false;
                             lblAwards2.Content = "五等奖";
-                            lblNum.Content = "前" + (drawingTime * 10).ToString() + "/" + totalNumToDraw.ToString() + "名";
+                            lblNum.Content = "前" + ((drawingTime * numPerDraw)>=totalNumToDraw? totalNumToDraw:(drawingTime*numPerDraw)).ToString() + "/" + totalNumToDraw.ToString() + "名";
 
                             // 现在正在抽取多少名更新
                             //lblRest.Content = dtTable.Rows.Count;
@@ -623,14 +655,137 @@ namespace WpfApplication1
                         }
 
                         drawingTime++;
-                        thisRound = 10;
-                        lblNum.Content = "前" + (drawingTime * 10).ToString() + "/" + totalNumToDraw.ToString() + "名";
+                        thisRound = (drawingTime * numPerDraw) >= totalNumToDraw ? totalNumToDraw % numPerDraw : numPerDraw;
+                        lblNum.Content = "前" + ((drawingTime * numPerDraw) >= totalNumToDraw ? totalNumToDraw : (drawingTime * numPerDraw)).ToString() + "/" + totalNumToDraw.ToString() + "名";
+                        // 人数较少时，隐藏多余的标签
+                        if (thisRound < 10)
+                        {
+                            for (int i = thisRound; i < 10; i++)
+                            {
+                                labels[i].Visibility = Visibility.Collapsed;
+                            }
+                        }
+                        timer.Start();
+                        isRolling = true;
+                    }
+
+                    break;
+                case Awards2.SixthPrize:
+                    if (isRolling)
+                    {
+                        timer.Stop();
+                        // 保存数据
+                        // 从候选人员中减去
+                        SaveToCsv(Environment.ExpandEnvironmentVariables(@"%UserProfile%\Desktop\6.csv"));
+                        isRolling = false;
+                        if (drawingTime >= totalTimesToDraw)    // if(drawingTime==totalTimeToDraw)
+                        {
+                            drawingAward2 = Awards2.FifthPrize;
+
+                            totalNumToDraw = 38;
+                            totalTimesToDraw = 4;
+                            numPerDraw = 10;
+                            drawingTime = 0;
+
+
+                            hasLastRoundCompleted = true;
+                        }
+                    }
+                    else
+                    {
+                        if (hasLastRoundCompleted)
+                        {
+                            for (int i = 0; i < 10; i++)
+                            {
+                                labels[i].Content = "********";
+                                labels[i].Visibility = Visibility.Visible;
+                            }
+                            hasLastRoundCompleted = false;
+                            lblAwards2.Content = "六等奖";
+                            lblNum.Content = "前" + ((drawingTime * numPerDraw) >= totalNumToDraw ? totalNumToDraw : (drawingTime * numPerDraw)).ToString() + "/" + totalNumToDraw.ToString() + "名";
+
+                            // 现在正在抽取多少名更新
+                            //lblRest.Content = dtTable.Rows.Count;
+                            //lblPercent.Content = "20%  = ";
+                            //lblNumToDraw.Content = totalNumToDraw;
+                            break;
+                        }
+
+                        drawingTime++;
+                        thisRound = (drawingTime * numPerDraw) >= totalNumToDraw ? totalNumToDraw % numPerDraw : numPerDraw;
+                        lblNum.Content = "前" + ((drawingTime * numPerDraw) >= totalNumToDraw ? totalNumToDraw : (drawingTime * numPerDraw)).ToString() + "/" + totalNumToDraw.ToString() + "名";
+                        // 人数较少时，隐藏多余的标签
+                        if (thisRound < 10)
+                        {
+                            for (int i = thisRound; i < 10; i++)
+                            {
+                                labels[i].Visibility = Visibility.Collapsed;
+                            }
+                        }
                         timer.Start();
                         isRolling = true;
 
                     }
-
                     break;
+
+                case Awards2.SeventhPrize:
+                    if (isRolling)
+                    {
+                        timer.Stop();
+                        // 保存数据
+                        // 从候选人员中减去
+                        SaveToCsv(Environment.ExpandEnvironmentVariables(@"%UserProfile%\Desktop\7.csv"));
+                        isRolling = false;
+                        if (drawingTime >= totalTimesToDraw)    // if(drawingTime==totalTimeToDraw)
+                        {
+                            drawingAward2 = Awards2.SixthPrize;
+
+                            totalNumToDraw = 68;
+                            totalTimesToDraw = 7;
+                            numPerDraw = 10;
+                            drawingTime = 0;
+
+
+                            hasLastRoundCompleted = true;
+                        }
+                    }
+                    else
+                    {
+                        if (hasLastRoundCompleted)
+                        {
+                            for (int i = 0; i < 10; i++)
+                            {
+                                labels[i].Content = "********";
+                                labels[i].Visibility = Visibility.Visible;
+                            }
+                            hasLastRoundCompleted = false;
+                            lblAwards2.Content = "纪念奖";
+                            lblNum.Content = "前" + ((drawingTime * numPerDraw) >= totalNumToDraw ? totalNumToDraw : (drawingTime * numPerDraw)).ToString() + "/" + totalNumToDraw.ToString() + "名";
+
+                            // 现在正在抽取多少名更新
+                            //lblRest.Content = dtTable.Rows.Count;
+                            //lblPercent.Content = "20%  = ";
+                            //lblNumToDraw.Content = totalNumToDraw;
+                            break;
+                        }
+
+                        drawingTime++;
+                        thisRound = (drawingTime * numPerDraw) >= totalNumToDraw ? totalNumToDraw % numPerDraw : numPerDraw;
+                        lblNum.Content = "前" + ((drawingTime * numPerDraw) >= totalNumToDraw ? totalNumToDraw : (drawingTime * numPerDraw)).ToString() + "/" + totalNumToDraw.ToString() + "名";
+                        // 人数较少时，隐藏多余的标签
+                        if(thisRound<10)
+                        {
+                            for (int i = thisRound; i < 10; i++)
+                            {
+                                labels[i].Visibility = Visibility.Collapsed;
+                            }
+                        }
+                        timer.Start();
+                        isRolling = true;
+
+                    }
+                    break;
+
                 case Awards2.NonePrize:
                     labels[0].Content = "抽奖完成";
                     break;
@@ -677,7 +832,10 @@ namespace WpfApplication1
             ThirdPrize = 3,
             FourthPrize = 4,
             FifthPrize = 5,
-            NonePrize = 6
+            // NonePrize = 6
+            SixthPrize = 6,
+            SeventhPrize = 7,
+            NonePrize = 8
         }
 
         void SaveToCsv(string csvName)
