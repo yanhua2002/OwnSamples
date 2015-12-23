@@ -787,7 +787,7 @@ namespace WpfApplication1
                     break;
 
                 case Awards2.NonePrize:
-                    labels[0].Content = "抽奖完成";
+                    labels[0].Content = "抽奖结束，恭喜中奖者！";
                     break;
                 default:
                     break;
@@ -869,7 +869,7 @@ namespace WpfApplication1
                 string tempStr = dtTable.Rows[i]["Rank"].ToString();
                 //if (tempStr == "TTSR" || tempStr == "BPR")
                 //    dtTable.Rows[i].Delete();
-                if (string.Equals(tempStr, "TTSR") || string.Equals(tempStr, "BPR"))
+                if (string.Equals(tempStr, "TTSR") || string.Equals(tempStr, "TSR观察") || string.Equals(tempStr,"Intern"))
                     dtTable.Rows[i].Delete();
             }
             dtTable.AcceptChanges();
