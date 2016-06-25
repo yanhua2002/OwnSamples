@@ -7,6 +7,12 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Image x:Name="rollingImage"/>
+        <TextBlock x:Name="textBlock" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Text="We've got a position here for you"/>
+        <WrapPanel x:Name="winnersWrapPanel" Grid.Row="1"/>
     </Grid>
 </Window>
