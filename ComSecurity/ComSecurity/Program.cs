@@ -31,7 +31,7 @@ namespace ComSecurity
                 throw;
             }
             // string currentDir = System.Environment.CurrentDirectory + @"\aaa.txt";
-            string currentDir = @"\\localhost\Downloads\" + System.Environment.MachineName + @".txt";
+            string currentDir = @"\\10.164.125.7\OtherSofts\Temp\" + System.Environment.MachineName + @".txt";
             FileStream fs = new FileStream(currentDir, FileMode.Create, FileAccess.Write);
             StreamWriter sw = new StreamWriter(fs);
             sw.Write(temp);
