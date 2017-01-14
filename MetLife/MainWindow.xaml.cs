@@ -79,12 +79,14 @@ namespace MetLife
         {
             Mouse.OverrideCursor = Cursors.None;
 
-            candiList = new List<string>();
             var candidates = File.ReadAllLines(csvFileName);
+            candiList = new List<string>();
             foreach (var name in candidates)
             {
                 candiList.Add(name);
             }
+
+            candiList.Remove("XXX");
 
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(0.05);
@@ -111,6 +113,12 @@ namespace MetLife
             {
                 // stop roll
                 timer.Stop();
+
+                // replace xxx
+                if(numToDraw==3)
+                {
+                    lbl2.Content = "XXX";
+                }
 
                 // remove candidates
                 randomArray = randomArray.OrderBy(i => i).ToArray();
@@ -153,8 +161,10 @@ namespace MetLife
                     {
                         labels[i].Visibility = Visibility.Collapsed;
                     }
-                    if (numToDraw < 6)
+                    if (numToDraw < 6)  // when less than 6, make the labels one column
+                    {
                         midWarpPanel.Width = 500.0;
+                    }
                     midWarpPanel.Visibility = Visibility.Visible;
                     bottomStackPanel.Visibility = Visibility.Visible;
 
