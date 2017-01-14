@@ -31,7 +31,10 @@ namespace MetLife
         int numToDraw=10;
 
         bool rolling = false;
-        bool nextFlag = true;
+        bool nextFlag = false;
+
+        Queue<string> awardNameQue;
+        Queue<int> awardNumQue;
 
         public MainWindow()
         {
@@ -74,6 +77,8 @@ namespace MetLife
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            Mouse.OverrideCursor = Cursors.None;
+
             candiList = new List<string>();
             var candidates = File.ReadAllLines(csvFileName);
             foreach (var name in candidates)
@@ -82,10 +87,19 @@ namespace MetLife
             }
 
             timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(0.04);
+            timer.Interval = TimeSpan.FromSeconds(0.05);
             timer.Tick += Timer_Tick;
 
             labels = new Label[] { lbl0, lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7, lbl8, lbl9 };
+
+            awardNameQue = new Queue<string>();
+            awardNameQue.Enqueue("三等奖");
+            awardNameQue.Enqueue("二等奖");
+            awardNameQue.Enqueue("一等奖");
+            awardNumQue = new Queue<int>();
+            awardNumQue.Enqueue(10);
+            awardNumQue.Enqueue(6);
+            awardNumQue.Enqueue(3);
         }
 
         private void Window_KeyUp(object sender, KeyEventArgs e)
@@ -99,12 +113,7 @@ namespace MetLife
                 timer.Stop();
 
                 // remove candidates
-                // List<int> tempList = new List<int>();
-                // foreach (var item in randomArray)
-                // {
-                //     tempList.Add(item);
-                // }
-                randomArray.OrderBy(i => i);
+                randomArray = randomArray.OrderBy(i => i).ToArray();
                 for (int i = randomArray.Length; i >0 ; i--)
                 {
                     candiList.RemoveAt(randomArray[i-1]);
@@ -117,12 +126,38 @@ namespace MetLife
                 if(nextFlag)
                 {
                     // start roll
+                    timer.Start();
+
                     rolling = true;
                     nextFlag = false;
                 }
                 else
                 {
-                    // set some vars
+                    if(awardNameQue.Count==0)
+                    {
+                        midWarpPanel.Visibility = Visibility.Collapsed;
+                        bottomStackPanel.Visibility = Visibility.Collapsed;
+
+                        return;
+                    }
+
+                    // set some vars, restore the UI...
+                    lblAwards2.Content = awardNameQue.Dequeue();
+                    numToDraw = awardNumQue.Dequeue();
+                    lblNum.Content = numToDraw;
+                    foreach (var label in labels)
+                    {
+                        label.Content = "*****";
+                    }
+                    for (int i = 9; i > numToDraw-1; i--)
+                    {
+                        labels[i].Visibility = Visibility.Collapsed;
+                    }
+                    if (numToDraw < 6)
+                        midWarpPanel.Width = 500.0;
+                    midWarpPanel.Visibility = Visibility.Visible;
+                    bottomStackPanel.Visibility = Visibility.Visible;
+
                     nextFlag = true;
                 }
             }

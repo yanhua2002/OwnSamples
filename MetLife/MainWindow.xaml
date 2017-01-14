@@ -5,8 +5,97 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MetLife"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" Loaded="Window_Loaded" KeyUp="Window_KeyUp">
+        Title="MainWindow" Height="768" Width="1366" Loaded="Window_Loaded" KeyUp="Window_KeyUp" AllowsTransparency="True" WindowStyle="None" WindowState="Maximized">
+    <Window.Resources>
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="FontFamily" Value="Microsoft YaHei"/>
+            <!--<Setter Property="FontFamily" Value="{x:Null}"/>-->
+        </Style>
+        <Style x:Key="RollingTextLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource {x:Type Label}}">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Label}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="10" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Red" Offset="0"/>
+                        <GradientStop Color="Gold" Offset="0.5"/>
+                        <GradientStop Color="Red" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Width" Value="360"/>
+            <Setter Property="Height" Value="60"/>
+            <Setter Property="Margin" Value="60,20"/>
+            <Setter Property="FontSize" Value="36"/>
+        </Style>
+    </Window.Resources>
+    <Window.Background>
+        <ImageBrush ImageSource="background.jpg"/>
+    </Window.Background>
+
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <Label Content="年度晚宴抽奖" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="48">
+                <Label.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Red" Offset="0"/>
+                        <GradientStop Color="Gold" Offset="0.5"/>
+                        <GradientStop Color="Red" Offset="1"/>
+                    </LinearGradientBrush>
+                </Label.Background>
+            </Label>
+        </StackPanel>
+        <Grid Grid.Row="1">
+            <WrapPanel x:Name="midWarpPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Width="1000" Visibility="Collapsed">
+                <Label x:Name="lbl0" Content="*****" Style="{DynamicResource RollingTextLabelStyle}"/>
+                <Label x:Name="lbl1" Content="*****" Style="{DynamicResource RollingTextLabelStyle}"/>
+                <Label x:Name="lbl2" Content="*****" Style="{DynamicResource RollingTextLabelStyle}"/>
+                <Label x:Name="lbl3" Content="*****" Style="{DynamicResource RollingTextLabelStyle}"/>
+                <Label x:Name="lbl4" Content="*****" Style="{DynamicResource RollingTextLabelStyle}"/>
+                <Label x:Name="lbl5" Content="*****" Style="{DynamicResource RollingTextLabelStyle}"/>
+                <Label x:Name="lbl6" Content="*****" Style="{DynamicResource RollingTextLabelStyle}"/>
+                <Label x:Name="lbl7" Content="*****" Style="{DynamicResource RollingTextLabelStyle}"/>
+                <Label x:Name="lbl8" Content="*****" Style="{DynamicResource RollingTextLabelStyle}"/>
+                <Label x:Name="lbl9" Content="*****" Style="{DynamicResource RollingTextLabelStyle}"/>
+            </WrapPanel>
+            <Label Content="恭喜各位小伙伴！！！" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{DynamicResource RollingTextLabelStyle}" Visibility="Collapsed"/>
+        </Grid>
+        <Grid Grid.Row="2">
+            <StackPanel x:Name="bottomStackPanel" HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Horizontal" Visibility="Collapsed">
+                <Label Content="当前抽取" FontSize="32" VerticalAlignment="Bottom"/>
+                <Label x:Name="lblAwards2" Content="---" FontSize="72" VerticalAlignment="Bottom"/>
+                <Label Content="共" FontSize="32" VerticalAlignment="Bottom"/>
+                <Label x:Name="lblNum" Content="---" FontSize="32" VerticalAlignment="Bottom"/>
+                <Label Content="名" FontSize="32" VerticalAlignment="Bottom"/>
+            </StackPanel>
+            <!--<StackPanel VerticalAlignment="Bottom" Height="30" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label Content="现在剩余抽奖人数："/>
+                <Label x:Name="lblRest" Content="XXX"/>
+                <Label Content="该奖项共抽取： 总人数  X"/>
+                <Label x:Name="lblPercent" Content="xx%  = "/>
+                <Label x:Name="lblNumToDraw" Content="XXX"/>
+            </StackPanel>-->
+        </Grid>
+
     </Grid>
 </Window>
