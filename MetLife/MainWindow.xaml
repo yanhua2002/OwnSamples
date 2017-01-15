@@ -66,7 +66,7 @@
             </Label>
         </StackPanel>
         <Grid Grid.Row="1">
-            <WrapPanel x:Name="midWarpPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Width="1000" Visibility="Collapsed">
+            <WrapPanel x:Name="midWarpPanel" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="1024" MaxHeight="768" Visibility="Collapsed">
                 <Label x:Name="lbl0" Content="*****" Style="{DynamicResource RollingTextLabelStyle}"/>
                 <Label x:Name="lbl1" Content="*****" Style="{DynamicResource RollingTextLabelStyle}"/>
                 <Label x:Name="lbl2" Content="*****" Style="{DynamicResource RollingTextLabelStyle}"/>
